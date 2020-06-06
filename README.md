@@ -1,1 +1,2 @@
 # ME-R-N-Stack-Practice
+Practice making a backend with the MERN stack.  I might eventually add a front-end (React) portion, but for now it's technically going to be the MEN stack (Mongodb, Express, Node).

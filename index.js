@@ -3,9 +3,11 @@ const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
+const config = require('./config/key')
+
 const {User} = require('./models/user');
 
-mongoose.connect('mongodb+srv://danPark:kAAV.Ss$kB8A8b5@mern-practice.bsft5.mongodb.net/<dbname>?retryWrites=true&w=majority', 
+mongoose.connect(config.mongoURI, 
     {
       useNewUrlParser: true,
       useUnifiedTopology: true

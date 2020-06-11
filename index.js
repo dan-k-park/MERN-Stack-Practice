@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key')
 
-const {User} = require('./models/user');
+const { User } = require('./models/user');
 
 mongoose.connect(config.mongoURI, 
     {
@@ -27,6 +27,23 @@ app.post('/api/users/register', (req, res) => {
     res.status(200).json({ 
       success: true,
       userData: doc
+    })
+  })
+})
+
+app.post('/api/user/login', (req, res) => {
+  // Find email
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message: 'Auth failed, email not found'
+      });
+    }
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch) {
+        return res.json({ loginSuccess: false, message: "Incorrect password" })
+      }
     })
   })
 })

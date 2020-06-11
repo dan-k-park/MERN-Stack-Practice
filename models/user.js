@@ -57,15 +57,20 @@ userSchema.pre('save', function(next) {
 userSchema.methods.comparePassword = function(plainPassword, callback) {
   bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
     if (err) return callback(err);
-    cb(null, isMatch);
+    callback(null, isMatch);
   })
 }
 
 userSchema.methods.generateToken = function(callback) {
   var user = this;
-  var token = jwt.sign(user._id.tokenString(), 'su5p1ci0us');
+  var token = jwt.sign(user._id.toHexString(), 'su5p1ci0us');
   
   user.token = token;
+  user.save(function(err, user) {
+    if (err) return callback(err)
+    // This callback is the callback that's an argument of user.generateToken in index.js
+    callback(null, user)
+  })
 }
 
 const User = mongoose.model('User', userSchema)

@@ -31,7 +31,7 @@ app.post('/api/users/register', (req, res) => {
   })
 })
 
-app.post('/api/user/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
   // Find email
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
@@ -44,6 +44,15 @@ app.post('/api/user/login', (req, res) => {
       if (!isMatch) {
         return res.json({ loginSuccess: false, message: "Incorrect password" })
       }
+    })
+
+    user.generateToken((err, user) => {
+      if (err) return res.status(400).send(err);
+      res.cookie('x_auth', user.token)
+        .status(200)
+        .json({
+          loginSuccess: true
+        })
     })
   })
 })

@@ -36,6 +36,7 @@ userSchema.pre('save', function(next) {
   var user = this;
 
   if (user.isModified('password')) {
+    console.log("In first if")
     bcrypt.genSalt(saltRounds, function(err, salt) {
       // From what I understand happens here is if there's an error, the go to the next part.
       // In index.js, that would be the if statement with the error that returns a json with the error
@@ -44,6 +45,7 @@ userSchema.pre('save', function(next) {
       bcrypt.hash(user.password, salt, function(err, hash) {
         if (err) return next(err);
         user.password = hash
+        next()
       })
     })
   } else {

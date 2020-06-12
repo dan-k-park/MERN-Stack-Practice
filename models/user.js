@@ -74,7 +74,7 @@ userSchema.methods.generateToken = function(callback) {
   })
 }
 
-userSchema.static.findByToken = function(token, callback) {
+userSchema.statics.findByToken = function(token, callback) {
   var user = this;
 
   jwt.verify(token, 'su5p1ci0us', function(err, decode) {

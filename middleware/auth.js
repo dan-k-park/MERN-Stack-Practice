@@ -11,7 +11,8 @@ let auth = (req, res, next) => {
     })
     req.token = token;
     // The user comes from the actual static method findByToken in user.js
-    req.user = user
+    req.user = user;
+    next();
   })
 }
 

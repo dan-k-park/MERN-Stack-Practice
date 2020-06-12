@@ -54,6 +54,7 @@ userSchema.pre('save', function(next) {
   }
 });
 
+// The callback is the callback function with args (err, isMatch) in line 43 index.js
 userSchema.methods.comparePassword = function(plainPassword, callback) {
   bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
     if (err) return callback(err);
@@ -67,9 +68,20 @@ userSchema.methods.generateToken = function(callback) {
   
   user.token = token;
   user.save(function(err, user) {
-    if (err) return callback(err)
+    if (err) return callback(err);
     // This callback is the callback that's an argument of user.generateToken in index.js
-    callback(null, user)
+    callback(null, user);
+  })
+}
+
+userSchema.static.findByToken = function(token, callback) {
+  var user = this;
+
+  jwt.verify(token, 'su5p1ci0us', function(err, decode) {
+    user.findOne({'_id': decode, 'token': token}, function(err, user) {
+      if (err) return callback(err);
+      callback(null, user);
+    })
   })
 }
 

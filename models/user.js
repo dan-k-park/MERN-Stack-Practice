@@ -74,6 +74,7 @@ userSchema.methods.generateToken = function(callback) {
   })
 }
 
+// Statics creates a class method?
 userSchema.statics.findByToken = function(token, callback) {
   var user = this;
 

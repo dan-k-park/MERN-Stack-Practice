@@ -68,6 +68,8 @@ app.post('/api/users/login', (req, res) => {
   })
 })
 
+// Auth middleware because we set req.user in auth.js
+// giving us access to req.user._id
 app.get('/api/users/logout', auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id}, { token: '' }, (err, doc) => {
     if (err) return res.json({ success: false, err })

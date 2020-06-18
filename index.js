@@ -68,5 +68,14 @@ app.post('/api/users/login', (req, res) => {
   })
 })
 
+app.get('/api/users/logout', (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id}, { token: '' }, (err, doc) => {
+  if (err) return res.json({ success: false, err })
+  return res.status(200).send({
+    success: true
+    })
+  })
+})
+
 app.listen(5000)
 

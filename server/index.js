@@ -20,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.json({'hello': 'I am deployed'})
+})
+
 app.get('/api/users/auth', auth, (req, res) => {
   res.status(200).json({
     _id: req._id,
